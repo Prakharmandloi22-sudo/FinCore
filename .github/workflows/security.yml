@@ -18,10 +18,15 @@ jobs:
       - name: Verify No Secrets Committed
         run: |
           echo "Scanning for accidental secrets or hardcoded credentials..."
-          # Check for high-entropy tokens or private keys
-          ! grep -rn "BEGIN RSA PRIVATE KEY" . --exclude-dir={.git,node_modules,dist,build} || (echo "Private key detected!" && exit 1)
-          ! grep -rn "BEGIN OPENSSH PRIVATE KEY" . --exclude-dir={.git,node_modules,dist,build} || (echo "SSH private key detected!" && exit 1)
-          ! grep -rn "sk_live_" . --exclude-dir={.git,node_modules,dist,build} || (echo "Production Stripe key detected!" && exit 1)
+          # Exclude .git, .github, node_modules, and build directories to avoid self-matching
+          if grep -rn --exclude-dir=.git --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.next "BEGIN.*PRIVATE KEY" .; then
+            echo "Private key detected!"
+            exit 1
+          fi
+          if grep -rn --exclude-dir=.git --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.next "sk_live_[0-9a-zA-Z]" .; then
+            echo "Production Stripe secret key detected!"
+            exit 1
+          fi
           echo "Secret scan passed cleanly. Zero production secrets committed."
 
       - name: Setup Node.js
@@ -40,4 +45,3 @@ jobs:
           grep "USER appuser" analytics-service/Dockerfile || (echo "Analytics Dockerfile must run as non-root user 'appuser'" && exit 1)
           grep "USER node" frontend/Dockerfile || (echo "Frontend Dockerfile must run as non-root user 'node'" && exit 1)
           echo "All containers strictly enforce non-root execution."
-
