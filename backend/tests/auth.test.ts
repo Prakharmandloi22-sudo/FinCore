@@ -112,3 +112,4 @@ describe('Assessment 04: Financial Identity & Authorization Test Suite', () => {
     expect(allowedRes.body.data.accounts.length).toBeGreaterThan(0);
   });
 });
+

@@ -68,3 +68,4 @@ jobs:
 
       - name: Build Next.js Production Bundle
         run: npm --prefix frontend run build
+

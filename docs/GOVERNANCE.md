@@ -31,3 +31,4 @@ When a production incident occurs (e.g. `INCIDENT-005` lock contention):
 3. Run verification suite: `npm run test:backend && npm run test:capstone`.
 4. Submit expedited PR with Incident Postmortem link.
 5. Merge to `main`, tag semantic release (`v1.0.1`), and backport to `develop`.
+

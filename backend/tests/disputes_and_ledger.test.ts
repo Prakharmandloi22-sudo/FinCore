@@ -123,3 +123,4 @@ describe('Assessment 03, 12: Disputes, Holds & Double-Entry Invariants Suite', (
     expect(res.body.data.globalInvariantResult.difference).toBe('0.0000');
   });
 });
+

@@ -20,3 +20,4 @@
 ## 2. Test Evidence
 - Verified via `npm --prefix backend test`.
 - 16/16 tests passing across all endpoints and failure paths.
+

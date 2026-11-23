@@ -14,3 +14,4 @@
   - Network segmentation: internal database and redis on private isolated network.
   - Secret injection via `.env` with `.env.example` committing zero plaintext secrets.
   - HTTP and container healthchecks on all services.
+

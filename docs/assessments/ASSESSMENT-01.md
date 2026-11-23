@@ -16,3 +16,4 @@
 - **Verified**: Business logic and balances are validated server-side by the REST API, not just cosmetic in the interface.
 - **Verified**: Handles invalid inputs (e.g. overdrafts, missing beneficiaries) with safe error alerts and no credential leakage.
 - **Verified**: 1-click role switcher allows evaluators to seamlessly test all 5 roles during live technical review.
+

@@ -13,3 +13,4 @@
   - `scripts/restore.sh`
   - Decrypts, verifies checksum, restores to isolated test DB, and validates ledger balance invariants.
 - [x] Observability: Structured JSON logging, `/health` endpoint, and `/metrics` Prometheus-compatible gauge.
+

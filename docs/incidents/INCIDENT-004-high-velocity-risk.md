@@ -17,3 +17,4 @@ An account initiated 5 transfers in 3 minutes totaling $9,500 USD immediately af
 1. The transaction was blocked prior to double-entry ledger execution.
 2. A risk alert was queued in the Operations Analyst dashboard.
 3. Operations analyst verified with customer, identifying an unauthorized automated script. The account was temporarily frozen to prevent credential stuffing.
+

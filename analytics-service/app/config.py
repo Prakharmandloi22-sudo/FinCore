@@ -1,7 +1,7 @@
 import os
-from pydantic_settings import BaseSettings
+from pydantic import BaseModel
 
-class Settings(BaseSettings):
+class Settings(BaseModel):
     APP_NAME: str = "FinCore Analytics & Financial Calculation Service"
     APP_VERSION: str = "1.0.0"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
@@ -11,9 +11,6 @@ class Settings(BaseSettings):
     # Financial Precision Settings
     ROUNDING_MODE: str = "ROUND_HALF_EVEN"
     DECIMAL_PLACES: int = 4
-    
-    class Config:
-        env_file = ".env"
-        extra = "ignore"
 
 settings = Settings()
+

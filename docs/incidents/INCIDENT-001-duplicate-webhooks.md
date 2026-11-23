@@ -22,3 +22,4 @@ The webhook processing handler assumed upstream providers guarantee at-most-once
 1. **Event Deduplication Table**: Every received event is stored in `provider_webhook_events` under a unique constraint. Duplicate payloads return `200 { status: 'DUPLICATE_IGNORED' }` without invoking the ledger.
 2. **Automated Regression Test**: Added `tests/payments_and_webhooks.test.ts` verifying duplicate webhook replays execute exactly zero duplicate ledger entries.
 3. **Double-Entry Invariant Alert**: Automated health check monitors ledger balance every 30 seconds.
+

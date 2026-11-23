@@ -43,3 +43,4 @@ def run_precision_benchmark(iterations: int = 100_000) -> Dict[str, Any]:
             "across all ledger entries, transfers, and fee calculations to guarantee zero financial drift."
         )
     }
+

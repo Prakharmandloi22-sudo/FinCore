@@ -39,3 +39,4 @@ jobs:
           grep "USER appuser" analytics-service/Dockerfile || (echo "Analytics Dockerfile must run as non-root user 'appuser'" && exit 1)
           grep "USER node" frontend/Dockerfile || (echo "Frontend Dockerfile must run as non-root user 'node'" && exit 1)
           echo "All containers strictly enforce non-root execution."
+

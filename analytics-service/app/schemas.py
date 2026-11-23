@@ -150,3 +150,4 @@ class BenchmarkResult(BaseModel):
     drift_cents: str
     decimal_duration_ms: float
     conclusion: str
+

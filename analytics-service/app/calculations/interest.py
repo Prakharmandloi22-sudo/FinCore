@@ -55,3 +55,4 @@ def calculate_daily_compound_interest(
         "effective_annual_yield": apy_percentage,
         "daily_breakdown_preview": daily_log
     }
+

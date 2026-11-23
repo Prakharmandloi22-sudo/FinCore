@@ -71,3 +71,4 @@ def calculate_transfer_fee(amount: Decimal, transfer_type: str = "DOMESTIC", is_
             "capped_applied": capped_applied
         }
     }
+

@@ -22,3 +22,4 @@ for (const accountId of lockAccounts) {
 Because both transactions now acquire locks in identical global order (e.g. Account A before Account B), circular waits are mathematically impossible.
 Latencies dropped from 2,400ms to under 45ms.
 4. Regression test: `tests/wallets_and_transfers.test.ts` (10 concurrent transfers executing simultaneously with zero deadlocks).
+

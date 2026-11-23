@@ -243,3 +243,4 @@ docker compose -f docker-compose.prod.yml up -d
 - [x] OpenAPI 3.1 spec and Postman collection matching actual endpoints.
 - [x] Non-root execution and private network segmentation in Docker Compose.
 - [x] Strict double-entry invariant enforced: $\sum \text{Debits} = \sum \text{Credits}$ at all times.
+

@@ -15,3 +15,4 @@ Client-side fee calculation defect passed an incomplete split array to the backe
 2. The transaction was immediately aborted with `422 UNBALANCED_LEDGER_ENTRY`.
 3. Database constraint trigger `trg_ledger_entry_immutability` verified no orphan lines were inserted.
 4. Regression test `test_disputes_and_ledger.test.ts` confirms unbalanced attempts throw errors and rollback cleanly.
+

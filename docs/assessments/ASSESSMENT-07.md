@@ -17,3 +17,4 @@
   - 10 simultaneous concurrent transfers executed: 8 succeeded, 2 rejected cleanly with zero overdraft.
   - Final balance is strictly non-negative ($192.0000).
   - Ledger invariant maintained 100%.
+

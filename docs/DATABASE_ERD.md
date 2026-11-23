@@ -52,3 +52,4 @@ FinCore enforces standard accounting rules across all financial actions:
 | `4000-TRANSFER-FEE-REVENUE` | Transfer Processing Fee Revenue | REVENUE | USD | CREDIT |
 | `5000-INTEREST-EXPENSE` | Customer Deposit Interest Expense | EXPENSE | USD | DEBIT |
 | `5100-PAYMENT-PROVIDER-FEES`| External Gateway Processing Expense | EXPENSE | USD | DEBIT |
+

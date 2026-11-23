@@ -28,3 +28,4 @@ echo "3. Encrypting snapshot with AES-256-CBC..."
 openssl enc -aes-256-cbc -salt -pbkdf2 -in "$OUTPUT_FILE" -out "$ENCRYPTED_FILE" -pass "pass:$ENCRYPTION_KEY"
 
 echo "Backup complete: $ENCRYPTED_FILE"
+

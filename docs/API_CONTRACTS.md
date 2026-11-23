@@ -57,3 +57,4 @@ FinCore validates:
 1. Timestamp is within 300 seconds of current system clock (replay protection).
 2. HMAC SHA-256 computation matches using constant-time comparison (`crypto.timingSafeEqual`).
 3. `provider_event_id` is deduplicated against the `provider_webhook_events` table.
+

@@ -14,3 +14,4 @@
 
 ## 2. Test Evidence
 - Verified in `backend/tests/disputes_and_ledger.test.ts` (unbalanced entries throw errors, balance holds deducted from available funds, global invariant test passes).
+

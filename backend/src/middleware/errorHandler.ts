@@ -39,3 +39,4 @@ export function errorHandlerMiddleware(
 
   return sendError(res, errorCode, message, err.details || null, statusCode);
 }
+

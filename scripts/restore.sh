@@ -22,3 +22,4 @@ echo "3. Running Post-Restore Double-Entry Invariant Validation..."
 echo "   Rule: SUM(debits) === SUM(credits)"
 echo "   Status: PASS - 100% BALANCED"
 echo "Restore drill completed successfully."
+

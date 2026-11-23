@@ -34,3 +34,4 @@ export const config = {
     sandboxEnabled: process.env.NOTIFICATION_SANDBOX_ENABLED !== 'false'
   }
 };
+

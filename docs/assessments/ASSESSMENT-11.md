@@ -11,3 +11,4 @@
   - Dependency vulnerability auditing (`npm audit`).
   - Container non-root user enforcement check.
 - [x] Automated rollback procedures documented in `docs/SECURITY_AND_RECOVERY.md`.
+

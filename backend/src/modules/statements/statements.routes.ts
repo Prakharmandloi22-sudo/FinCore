@@ -85,3 +85,4 @@ router.get('/monthly', authMiddleware, async (req: Request, res: Response) => {
 });
 
 export default router;
+

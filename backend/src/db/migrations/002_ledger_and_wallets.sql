@@ -106,3 +106,4 @@ CREATE TABLE IF NOT EXISTS transfers (
 CREATE INDEX IF NOT EXISTS idx_transfers_source ON transfers(source_wallet_id);
 CREATE INDEX IF NOT EXISTS idx_transfers_destination ON transfers(destination_wallet_id);
 CREATE INDEX IF NOT EXISTS idx_transfers_idempotency ON transfers(idempotency_key);
+

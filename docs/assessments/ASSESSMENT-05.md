@@ -15,3 +15,4 @@
 ## 2. Test Evidence
 - Verified via `python -m pytest analytics-service/tests/test_calculations.py analytics-service/tests/test_benchmarks.py -v`.
 - All tests passed. Benchmark proves exact 0.0000 drift with Decimal.
+

@@ -52,3 +52,4 @@ export const DEMO_USERS = [
   { role: 'finance_administrator', email: 'finance@fincore.local', name: 'Elena Rostova (Finance Admin)' },
   { role: 'platform_administrator', email: 'admin@fincore.local', name: 'Marcus Vance (Platform Admin)' }
 ];
+

@@ -15,3 +15,4 @@ The payment provider deducted an unexpected international interchange surcharge 
    - Debit: `5100-PAYMENT-PROVIDER-FEES` ($45.20)
    - Credit: `1100-GATEWAY-CLEARING-USD` ($45.20)
 3. Clearing account reconciled to exactly $0.00 variance.
+

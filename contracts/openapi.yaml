@@ -227,3 +227,4 @@ paths:
       responses:
         '200':
           description: Verifies SUM(debits) === SUM(credits) across the entire platform.
+

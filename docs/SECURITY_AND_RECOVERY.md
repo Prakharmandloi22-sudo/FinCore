@@ -29,3 +29,4 @@ To protect against session hijacking or unauthorized automated transfers:
 - **Recovery Time Objective (RTO)**: < 2 minutes.
 - **Backup Encryption**: Snapshots are dumped via `pg_dump`, checksummed using SHA-256, and encrypted with AES-256-GCM.
 - **Restore Verification Drill**: Automated scripts (`scripts/restore.ps1` and `scripts/restore.sh`) decrypt snapshots, restore them into an isolated staging schema, and run double-entry balance audits before declaring recovery complete.
+

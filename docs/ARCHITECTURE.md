@@ -55,3 +55,4 @@ Financial transfers execute under row-level locks on wallet accounts:
 3. Available balance is calculated atomically with active holds deducted:
    $$\text{Available Balance} = \text{Total Balance} - \sum \text{Active Holds}$$
 4. If available balance is less than transaction amount plus fee, the transaction immediately rolls back with `422 INSUFFICIENT_FUNDS`.
+

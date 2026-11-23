@@ -45,3 +45,4 @@ Write-Host "2. Generated SHA-256 Checksum: $Hash" -ForegroundColor Green
 Set-Content -Path $EncryptedFile -Value "AES-256-GCM::$Hash::$SnapshotContent"
 Write-Host "3. Encrypted backup saved: $EncryptedFile" -ForegroundColor Green
 Write-Host "Backup operation completed successfully with zero ledger disruption." -ForegroundColor Green
+

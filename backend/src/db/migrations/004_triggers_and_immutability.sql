@@ -32,3 +32,4 @@ CREATE TRIGGER trg_audit_log_immutability
 BEFORE UPDATE OR DELETE ON audit_logs
 FOR EACH ROW
 EXECUTE FUNCTION enforce_audit_log_immutability();
+

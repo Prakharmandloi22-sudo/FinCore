@@ -79,3 +79,4 @@ def test_statement_verification_unbalanced_variance_detected():
     assert res["is_balanced"] is False
     assert res["audit_passed"] is False
     assert res["discrepancy"] == Decimal("50.0000")
+

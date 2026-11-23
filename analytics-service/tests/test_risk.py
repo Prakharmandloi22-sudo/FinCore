@@ -83,3 +83,4 @@ def test_critical_composite_risk_trigger():
     assert res["risk_score"] >= 80
     assert res["risk_tier"] == "CRITICAL"
     assert res["recommendation"] == "REJECT_AND_FREEZE"
+

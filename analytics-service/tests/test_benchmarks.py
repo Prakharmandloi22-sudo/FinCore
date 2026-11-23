@@ -8,3 +8,4 @@ def test_benchmark_proves_floating_point_drift():
     # Proves float result diverges from exact 5.0
     assert abs(result["float_result"] - 5.0) >= 0
     assert "FinCore strictly enforces Decimal arithmetic" in result["conclusion"]
+

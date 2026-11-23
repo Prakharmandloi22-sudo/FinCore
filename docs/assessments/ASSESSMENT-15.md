@@ -58,3 +58,4 @@ CAPSTONE DEMONSTRATION COMPLETE: ALL INVARIANTS SATISFIED 100%
 2. Webhook replay was safely deduplicated with zero extra debit or credit.
 3. Transfer reversal cleanly returned funds and preserved fee reversal.
 4. Total platform debits strictly equal total platform credits ($14,808.0000 = $14,808.0000) with zero drift.
+

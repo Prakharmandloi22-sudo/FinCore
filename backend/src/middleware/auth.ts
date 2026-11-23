@@ -38,3 +38,4 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
     return sendError(res, 'INVALID_TOKEN', 'Invalid authentication credentials provided.', null, 401);
   }
 }
+
