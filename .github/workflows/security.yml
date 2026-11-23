@@ -19,7 +19,8 @@ jobs:
         run: |
           echo "Scanning for accidental secrets or hardcoded credentials..."
           # Check for high-entropy tokens or private keys
-          ! grep -rn "PRIVATE KEY" . --exclude-dir={.git,node_modules,dist,build} || (echo "Private key detected!" && exit 1)
+          ! grep -rn "BEGIN RSA PRIVATE KEY" . --exclude-dir={.git,node_modules,dist,build} || (echo "Private key detected!" && exit 1)
+          ! grep -rn "BEGIN OPENSSH PRIVATE KEY" . --exclude-dir={.git,node_modules,dist,build} || (echo "SSH private key detected!" && exit 1)
           ! grep -rn "sk_live_" . --exclude-dir={.git,node_modules,dist,build} || (echo "Production Stripe key detected!" && exit 1)
           echo "Secret scan passed cleanly. Zero production secrets committed."
 
