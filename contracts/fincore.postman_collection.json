@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "FinCore API Collection v1.0",
+    "description": "Complete Postman collection for FinCore Digital Banking & Double-Entry Ledger Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api/v1" },
+    { "key": "authToken", "value": "" },
+    { "key": "alexWalletId", "value": "33333333-3333-3333-3333-333333333001" },
+    { "key": "aliceWalletId", "value": "33333333-3333-3333-3333-333333333003" }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login Customer Alex",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@fincore.local\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Verify MFA (TOTP)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"code\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/mfa/verify", "host": ["{{baseUrl}}"], "path": ["auth", "mfa", "verify"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Wallets & Balances",
+      "item": [
+        {
+          "name": "List Wallets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": { "raw": "{{baseUrl}}/wallets", "host": ["{{baseUrl}}"], "path": ["wallets"] }
+          }
+        },
+        {
+          "name": "Simulate Deposit",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 500.00,\n  \"description\": \"Sandbox testing deposit\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/wallets/{{alexWalletId}}/deposit-simulate", "host": ["{{baseUrl}}"], "path": ["wallets", "{{alexWalletId}}", "deposit-simulate"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Transfers & Consistency",
+      "item": [
+        {
+          "name": "Execute Double-Entry Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" },
+              { "key": "Idempotency-Key", "value": "demo-postman-key-001" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceWalletId\": \"{{alexWalletId}}\",\n  \"destinationWalletId\": \"{{aliceWalletId}}\",\n  \"amount\": 75.00,\n  \"currency\": \"USD\",\n  \"description\": \"Postman API test transfer\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/transfers", "host": ["{{baseUrl}}"], "path": ["transfers"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Ledger Audit & Invariants",
+      "item": [
+        {
+          "name": "Verify Global Ledger Invariant",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": { "raw": "{{baseUrl}}/ledger/verify-invariants", "host": ["{{baseUrl}}"], "path": ["ledger", "verify-invariants"] }
+          }
+        }
+      ]
+    }
+  ]
+}

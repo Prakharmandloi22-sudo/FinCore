@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fincore-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fincore_db
+      POSTGRES_USER: fincore_user
+      POSTGRES_PASSWORD: fincore_secure_password_replace_in_prod
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/db/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - fincore-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fincore_user -d fincore_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: fincore-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - fincore-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fincore-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://fincore_user:fincore_secure_password_replace_in_prod@postgres:5432/fincore_db
+      REDIS_URL: redis://redis:6379
+      ANALYTICS_SERVICE_URL: http://analytics-service:8000
+      JWT_SECRET: super-secret-jwt-key-change-in-production-min-32-chars
+      PAYMENT_WEBHOOK_SECRET: whsec_test_mock_webhook_secret_fincore_2026
+    ports:
+      - "4000:4000"
+    networks:
+      - fincore-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  analytics-service:
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    container_name: fincore-analytics
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: production
+      PORT: 8000
+      INTERNAL_API_KEY: fincore-internal-service-key-7890
+    ports:
+      - "8000:8000"
+    networks:
+      - fincore-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fincore-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: http://backend:4000/api/v1
+    ports:
+      - "3000:3000"
+    networks:
+      - fincore-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+networks:
+  fincore-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

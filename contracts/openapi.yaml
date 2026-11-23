@@ -1,0 +1,229 @@
+openapi: 3.1.0
+info:
+  title: FinCore Financial REST API
+  description: |
+    Production-grade Financial Platform REST API providing double-entry bookkeeping,
+    digital wallets, atomic transfers, payment processing simulation, dispute management,
+    and real-time risk analytics.
+  version: 1.0.0
+  contact:
+    name: FinCore Engineering Architecture Group
+    email: api@fincore.local
+servers:
+  - url: http://localhost:4000/api/v1
+    description: Local Development Server
+  - url: https://api.fincore.local/api/v1
+    description: Staging Environment
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    reauthToken:
+      type: apiKey
+      in: header
+      name: X-Reauth-Token
+      description: Reauthentication token required for high-value financial actions (>= $1,000.00).
+
+  schemas:
+    ApiResponse:
+      type: object
+      required:
+        - success
+        - meta
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+        meta:
+          type: object
+          properties:
+            requestId:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+          enum: [USD, EUR, GBP]
+        status:
+          type: string
+          enum: [ACTIVE, FROZEN, CLOSED]
+        balances:
+          type: object
+          properties:
+            total:
+              type: string
+              example: "5000.0000"
+            available:
+              type: string
+              example: "5000.0000"
+            held:
+              type: string
+              example: "0.0000"
+
+    TransferRequest:
+      type: object
+      required:
+        - sourceWalletId
+        - amount
+        - currency
+      properties:
+        sourceWalletId:
+          type: string
+          format: uuid
+        destinationWalletId:
+          type: string
+          format: uuid
+        beneficiaryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          minimum: 0.01
+        currency:
+          type: string
+          enum: [USD, EUR, GBP]
+        description:
+          type: string
+        idempotencyKey:
+          type: string
+
+paths:
+  /auth/login:
+    post:
+      summary: User Authentication & Session Creation
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Session created or MFA challenge required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /auth/mfa/verify:
+    post:
+      summary: MFA Challenge Verification
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, code]
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                code:
+                  type: string
+                  example: "123456"
+      responses:
+        '200':
+          description: Full JWT authentication tokens issued.
+
+  /wallets:
+    get:
+      summary: List User Wallets & Ledger Balances
+      tags: [Wallets]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of wallets with total, held, and available balances.
+
+  /transfers:
+    post:
+      summary: Execute Atomic Double-Entry Transfer
+      tags: [Transfers]
+      security:
+        - bearerAuth: []
+        - reauthToken: []
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema:
+            type: string
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '201':
+          description: Transfer executed and posted to immutable ledger.
+        '409':
+          description: Concurrent request in progress.
+        '422':
+          description: Insufficient funds or invalid parameters.
+
+  /payments/webhook:
+    post:
+      summary: Signed Provider Webhook Receiver
+      tags: [Payments]
+      parameters:
+        - in: header
+          name: fin-signature
+          required: true
+          schema:
+            type: string
+            example: "t=1700000000,v1=abcdef..."
+      responses:
+        '200':
+          description: Webhook verified and processed (or duplicate safely ignored).
+
+  /disputes:
+    post:
+      summary: Raise Dispute on Completed Transfer
+      tags: [Disputes]
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Dispute opened for operations review.
+
+  /ledger/verify-invariants:
+    get:
+      summary: Verify Global Double-Entry Ledger Invariant
+      tags: [Ledger]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Verifies SUM(debits) === SUM(credits) across the entire platform.
